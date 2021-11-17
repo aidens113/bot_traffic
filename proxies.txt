@@ -1,0 +1,11 @@
+megaproxy.rotating.proxyrack.net:10000
+megaproxy.rotating.proxyrack.net:10001
+megaproxy.rotating.proxyrack.net:10002
+megaproxy.rotating.proxyrack.net:10003
+megaproxy.rotating.proxyrack.net:10004
+megaproxy.rotating.proxyrack.net:10005
+megaproxy.rotating.proxyrack.net:10006
+megaproxy.rotating.proxyrack.net:10007
+megaproxy.rotating.proxyrack.net:10008
+megaproxy.rotating.proxyrack.net:10009
+megaproxy.rotating.proxyrack.net:10010
