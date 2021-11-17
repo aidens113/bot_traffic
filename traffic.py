@@ -297,7 +297,7 @@ def startthreads(threadnum):
     #file.close()
     
     for i in range(threadnum):
-        Thread = threading.Thread(target=go, args=("megaproxy.rotating.proxyrack.net:222",))    
+        Thread = threading.Thread(target=go, args=("proxyhere",))    
         threads.append(Thread)
     for thread in threads:
         thread.start()
