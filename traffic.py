@@ -180,8 +180,8 @@ def initdriver(proxy):
     proxyauth_plugin_path = create_proxyauth_extension(
     proxy_host=str(str(proxy.split(":")[0]).strip().replace("\n","").replace("\r","")),  #"51.161.115.64",
     proxy_port=str(str(proxy.split(":")[1]).strip().replace("\n","").replace("\r","")),#80,
-    proxy_username=str(str('bobiscool113-country-'+str(countries[random.randint(0,int(len(countries)-1))])+'-refreshMinutes-10')),#+str(countries[therand])),#str(str(proxy.split(":")[2]).strip().replace("\n","").replace("\r","")),#"country-ca",
-    proxy_password='e9e113-251591-1dc380-248832-0e39c5',#str(str(proxy.split(":")[3]).strip().replace("\n","").replace("\r","")),#"ead2795d-a80d-4ea0-b686-c08f23894210",
+    proxy_username=str(str('username-'+str(countries[random.randint(0,int(len(countries)-1))])+'-refreshMinutes-10')),,#"country-ca",
+    proxy_password='passw',
     scheme='http'
     )
     chrome_options.add_extension(proxyauth_plugin_path)
