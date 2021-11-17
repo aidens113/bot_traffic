@@ -167,18 +167,10 @@ def initdriver(proxy):
     chrome_options.add_experimental_option("excludeSwitches", ['enable-automation'])
     chrome_options.add_experimental_option('useAutomationExtension', False)
     chrome_options.add_argument('--disable-blink-features=AutomationControlled')
-    #prefs = {"profile.default_content_setting_values.notifications" : 2,"profile.managed_default_content_settings.images": 2}
-    #chrome_options.add_experimental_option("prefs",prefs)
-
-    # chrome_options.add_argument('--user-data-dir=C:\\Users\\exoti\\AppData\\Local\\Google\\Chrome\\User Data\\')
-    #chrome_options.add_extension('buster.zip')
-    #chrome_options.add_argument(str('--profile-directory=Default'))
-    #chrome_options.add_argument("--start-maximized")
-    #chrome_options.add_argument(str('--proxy-server='+str(proxy)))
-    #chrome_options.add_argument("--headless")
+    
     countries = ['IE','US','UK','CA']
     proxyauth_plugin_path = create_proxyauth_extension(
-    proxy_host=str(str(proxy.split(":")[0]).strip().replace("\n","").replace("\r","")),  #"51.161.115.64",
+    proxy_host=str(str(proxy.split(":")[0]).strip().replace("\n","").replace("\r","")), 
     proxy_port=str(str(proxy.split(":")[1]).strip().replace("\n","").replace("\r","")),#80,
     proxy_username=str(str('username-'+str(countries[random.randint(0,int(len(countries)-1))])+'-refreshMinutes-10')),,#"country-ca",
     proxy_password='passw',
@@ -197,9 +189,9 @@ def initdriver(proxy):
 
 def setreferer(request):
     del request.headers['Referer']
-    #sources = ['https://google.com','https://instagram.com','https://facebook.com','https://yahoo.ca','https://bing.com','duckduckgo.com'] 
+    sources = ['https://google.com','https://instagram.com','https://facebook.com','https://yahoo.ca','https://bing.com','duckduckgo.com'] 
     
-    request.headers['Referer'] = "https://news-network.press"
+    request.headers['Referer'] = sources[random.randint(0,int(len(sources)-1))]
 
 
 def clicksubmit(driver):
