@@ -24,25 +24,20 @@ import time,string,zipfile,os
 
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
-
-
-def adclick(element, driver):
-    action = ActionChains(driver)
-    action.move_to_element_with_offset(element, random.uniform(-50.000,50.000), random.uniform(-20.000,20.000))
-    action.click()
-    action.perform()
     
+#Presses keyboard key
 def press_key(key, driver):
     actions = ActionChains(driver)
     actions.send_keys(key)
     actions.perform()
 
+#Random keys using .send_keys method. 
 def randkeys(element, keys, driver):
     for myi in keys:
         element.send_keys(myi)
         time.sleep(random.uniform(0.05, 0.25))
 
-
+#Creates a JS extension to automatically send proxy username and password, since chromedriver Selenium does not have proper auth for proxies 
 def create_proxyauth_extension(proxy_host, proxy_port,proxy_username, proxy_password,
                                scheme='http', plugin_path=None):
     """Proxy Auth Extension
@@ -121,6 +116,7 @@ def create_proxyauth_extension(proxy_host, proxy_port,proxy_username, proxy_pass
         password=proxy_password,
         scheme=scheme,
     )
+    #Zips extension and adds it to browser
     with zipfile.ZipFile(plugin_path, 'w') as zp:
         zp.writestr("manifest.json", manifest_json)
         zp.writestr("background.js", background_js)
@@ -128,11 +124,12 @@ def create_proxyauth_extension(proxy_host, proxy_port,proxy_username, proxy_pass
     return plugin_path
 
 
-        
+#Initiate the driver. Great for multi-threading
 def initdriver(proxy):
     print(proxy)
     chrome_options = webdriver.ChromeOptions()
 
+    #List of user agents
     mobilerand = random.randint(0,10)
     useragents = ['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36'
                   ,'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36'
@@ -156,6 +153,7 @@ def initdriver(proxy):
                           800,
                           1024]
 
+    #Sets a random mobile user agent
     if mobilerand >= 3:
         metric = random.randint(0,int(len(devicemetricslist1)-1))
         mobile_emulation = {
@@ -168,6 +166,7 @@ def initdriver(proxy):
     chrome_options.add_experimental_option('useAutomationExtension', False)
     chrome_options.add_argument('--disable-blink-features=AutomationControlled')
     
+    #Set your proxy options
     countries = ['IE','US','UK','CA']
     proxyauth_plugin_path = create_proxyauth_extension(
     proxy_host=str(str(proxy.split(":")[0]).strip().replace("\n","").replace("\r","")), 
@@ -186,7 +185,7 @@ def initdriver(proxy):
 
 
 
-
+#Sets website referrer in request headers
 def setreferer(request):
     del request.headers['Referer']
     sources = ['https://google.com','https://instagram.com','https://facebook.com','https://yahoo.ca','https://bing.com','duckduckgo.com'] 
@@ -194,11 +193,13 @@ def setreferer(request):
     request.headers['Referer'] = sources[random.randint(0,int(len(sources)-1))]
 
 
+#Clicksubmit dynamic function. Attempts to click a submit button.
 def clicksubmit(driver):
     try:
         keywords = ['Get Link','Click here to continue','Accept','accept','Submit','Continue','Go','go','Next','next',">>",">","Start",'start',"Start Now",'Save & Continue','Ok','OK']
         for _ in range(3):
             time.sleep(0.1)
+            #Scans page for elements containing the above keywords. Good accuracy, add more keywords for more accuracy.
             for keyword in keywords:
                 try:
                     elements = driver.find_elements_by_xpath("//button[ contains (text(), '"+str(keyword)+"' ) ]")
@@ -247,8 +248,10 @@ def go(proxy):
     global urltovisit
     while True:
         try:
-            
+            #Initiate driver with proxy
             driver = initdriver(proxy)    
+            
+            #My example code for a specific use case. Plug and play to fit your needs
             driver.request_interceptor = setreferer
             try:
                 driver.get(urltovisit)
@@ -276,6 +279,7 @@ def go(proxy):
                         clicksubmit(driver)
                         time.sleep(2)
                 
+            #Closes driver
             try:
                 driver.close()
                 driver.quit()
@@ -292,10 +296,12 @@ def go(proxy):
 def startthreads(threadnum):
     
     threads = []
+    #Optional proxies
     #file = open("proxies.txt","r")
     #proxies = file.readlines()
     #file.close()
     
+    #Starts threads
     for i in range(threadnum):
         Thread = threading.Thread(target=go, args=("proxyhere",))    
         threads.append(Thread)
